@@ -1,0 +1,40 @@
+{
+  "name": "config-prompt",
+  "version": "1.0.0",
+  "description": "Configuration store with a cli prompt and JSON Schema validation",
+  "license": "MIT",
+  "author": "Vincent Weevers",
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=2.0.0"
+  },
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "keywords": [
+    "cli-app",
+    "cli",
+    "config",
+    "configstore"
+  ],
+  "devDependencies": {
+    "tape": "~4.2.0"
+  },
+  "dependencies": {
+    "chalk": "~1.1.1",
+    "configstore": "~1.2.1",
+    "constant-case": "~1.1.1",
+    "inherits": "~2.0.1",
+    "inquirer": "~0.10.0",
+    "is-my-json-valid": "~2.12.2",
+    "isarray": "0.0.1",
+    "meow": "~3.3.0",
+    "packpath": "~0.1.0",
+    "trash": "~2.0.0",
+    "xtend": "~4.0.0"
+  },
+  "repository": "ironSource/node-config-prompt",
+  "bugs": "https://github.com/ironSource/node-config-prompt/issues",
+  "homepage": "https://github.com/ironSource/node-config-prompt"
+}
