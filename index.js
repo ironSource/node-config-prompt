@@ -9,7 +9,7 @@ var ConfigStore = require('configstore')
   , path = require('path')
   , packpath = require('packpath')
   , trash = require('trash')
-  , constantCase = require('constant-case')
+  , constantCase_ = require('constant-case')
 
 module.exports = Store
 
@@ -21,6 +21,16 @@ function findName() {
   if (!name) throw new Error('Could not find parent name')
 
   return name
+}
+
+function constantCase(s) {
+  // BEEP123 instead of BEEP_123
+  var cc = constantCase_(s).replace(/_(\d+)/g, function(match, p){
+    return p
+  })
+
+  if (s[0] === '_' && cc[0] !== '_') cc = '_' + cc // Keep prefix
+  return cc
 }
 
 function Store(name, schema) {
