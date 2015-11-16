@@ -39,7 +39,7 @@ function Store(name, schema) {
   }
 
   if (!(this instanceof Store)) return new Store(name, schema)
-  
+
   if (typeof name !== 'string' || name === '') {
     throw new Error('The `name` argument is required and must be a string')
   }
@@ -57,12 +57,12 @@ function Store(name, schema) {
   }
 
   ConfigStore.call(this, name, defaults)
-  
+
   if (!hasSchema) {
     schema = Store.guessSchema(this.all || {})
     this.keys = Object.keys(schema)
   }
-  
+
   this.schema = schema
   this.name = name
   this.prettyPath = colors.gray('~/.config/configstore/'+this.name+'.json')
@@ -116,10 +116,6 @@ Store.prototype.prompt = function(opts, done) {
   if (typeof opts === 'function') done = opts, opts = {}
   opts = xtend({ all: false, nodeEnv: true, silent: false }, opts)
 
-  if (!opts.silent) {
-    console.log('Config for %s at %s\n', this.prettyName, this.prettyPath)
-  }
-
   var store = this
     , prevState = opts.values || this.all || {}
     , questions = []
@@ -136,7 +132,7 @@ Store.prototype.prompt = function(opts, done) {
     var prev = prevState[key]
       , missing = prev == null
       , schema = store.schema[key]
-    
+
     if ((missing && schema.required) || opts.all) {
       var def = missing ? schema.default : prev
         , type = 'input'
@@ -182,14 +178,15 @@ Store.prototype.prompt = function(opts, done) {
         default: true,
         message: 'NODE_ENV is not defined. Use ' + colors.yellow('production') + '?'
       })
-    } else {
-      console.log('* NODE_ENV is %s', colors.blue(node_env))
     }
   }
 
   if (questions.length === 0) {
-    console.log('*', colors.yellow('No entries found.'))
     return done && setImmediate(done)
+  }
+
+  if (!opts.silent) {
+    console.log('Prompting for configuration of %s\n', this.prettyName)
   }
 
   inquirer.prompt(questions, function(answers){
@@ -198,7 +195,7 @@ Store.prototype.prompt = function(opts, done) {
     questions.forEach(function(q){
       var answer = answers[q.name]
         , schema = store.schema[q.name]
-      
+
       if (q.name === '__node_env') {
         process.env.NODE_ENV = answer ? 'production' : 'development'
         return
@@ -231,7 +228,7 @@ Store.prototype.prompt = function(opts, done) {
     }
 
     store.all = nextState
-    
+
     console.log('')
     done && done()
   })
@@ -281,7 +278,7 @@ Store.prototype.trash = function(done) {
 Store.prototype.print = function(opts, done) {
   if (typeof opts === 'function') done = opts, opts = {}
 
-  console.log('Config for %s at %s\n', this.prettyName, this.prettyPath)
+  console.log('Configuration of %s\n', this.prettyName)
 
   var has = false
 
