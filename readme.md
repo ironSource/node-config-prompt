@@ -9,14 +9,32 @@
 The basic API is the same as [configstore](https://github.com/yeoman/configstore), but the constructor takes a name (optional) and schema (see [api](#api) below).
 
 ```js
-var config = require('config-prompt')({
-  beep: { type: 'string', required: true },
-  okay: { type: 'boolean', default: true }
+const config = require('config-prompt')({
+  a: { type: 'string', required: true },
+  b: { type: 'boolean', default: true },
+  c: { type: 'boolean', required: true }
 })
 
-config.set('beep', 'boop')
-config.get('beep') // boop
-config.all // { beep: 'boop', okay: true }
+config.set('a', 'beep')
+
+let a = config.get('a') // beep
+let all = config.all // { a: 'beep', b: true }
+
+console.log(a, all)
+```
+
+Prompt the user for entries that are required and missing, which is only `c` continuing the example above:
+
+```js
+config.prompt(err => {
+  console.log(config.get('c'))
+})
+```
+
+To prompt for all entries, not just the missing:
+
+```js
+config.prompt({ all: true }, callback)
 ```
 
 ## usage with gulp
@@ -50,7 +68,7 @@ Say some task needs the configuration. Simply `require()` your `config.js` and a
 const gulp = require('gulp')
 const config = require('./config')
 
-gulp.task('build', ['config:prompt'], done => {
+gulp.task('build', ['config:prompt'], (done) => {
   if (config.get('myFlag') === true) {
     // something
   }
@@ -91,9 +109,7 @@ Returns an object with all entries as `CONSTANT_CASE` environment variables. Add
 // Returns { MY_KEY: 'foo', MY_NUM: 23, SOMETHING_ELSE: 'else' }
 config.set('my-key', 'foo')
 config.envify({ myNum: 23, something_else: 'else' })
-
 ```
-
 
 #### `config.print([options,] callback)`
 
@@ -105,11 +121,12 @@ Prints configuration to console.
 
 #### `config.prompt([options,] callback)`
 
-Prompts to overwrite or fill missing entries. Runs validation after all questions have been answered, then prompts again for invalid entries.
+Prompts to overwrite or fill missing entries. Runs validation after all questions have been answered, then prompts again for invalid entries. Will be
+silent if there are no questions to ask.
 
 *options*
 
-- `all` (bool, default false): prompt for all entries, not just the missing ones.
+- `all` (bool, default false): prompt for all entries, not just those that are required and missing.
 - `nodeEnv` (bool, default true): prompt to set `process.env.NODE_ENV` to either "development" or "production", if not set.
 
 *<small>(!) If you happened to notice the additional options in the source: those are likely to be refactored out and should not be relied upon.</small>*
