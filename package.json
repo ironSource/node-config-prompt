@@ -1,6 +1,6 @@
 {
   "name": "config-prompt",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Configuration store with a cli prompt and JSON Schema validation",
   "license": "MIT",
   "author": "Vincent Weevers",
