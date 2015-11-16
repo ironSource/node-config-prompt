@@ -27,7 +27,7 @@ var cli = meow({
     '',
     'Examples',
     '  $ config-prompt my-aws-module',
-    '    Config for ' + blue('my-aws-module') + ' at ' + gray('~/.config/configstore/my-aws-module.json'),
+    '    Configuration of ' + blue('my-aws-module'),
     '',
     '    * ' + yellow('aws_region') + ' ' + blue('us-west-1'),
     '',
@@ -37,7 +37,7 @@ var cli = meow({
     '    * Moving ' + gray('~/.config/configstore/boop.json') + ' to the trash',
     '',
     '  $ config-prompt --prompt my-aws-module',
-    '    Config for ' + blue('my-aws-module') + ' at ' + gray('~/.config/configstore/my-aws-module.json'),
+    '    Prompting for configuration of ' + blue('my-aws-module'),
     '    ' + green('? ') + yellow('aws_region') + blue(' undefined'),
     '    ' + green('? ') + yellow('aws_s3_bucket') + blue(' my-s3-bucket'),
     '',
@@ -83,5 +83,3 @@ if (flags.json) var accJSON = {}
     store.print(next)
   }
 })()
-
-
